@@ -11,13 +11,7 @@ services:
       MYSQL_PASSWORD: 12345
       MYSQL_DATABASE: haufe
     volumes:
-      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
-    command:
-      - /bin/bash
-      - -c
-      - |
-          /etc/init.d/mysqld start
-          mysql -u root -p 12345 -h localhost haufe < dump.sql
+      - ./mysql-dump:/docker-entrypoint-initdb.d
 
   back:
     build:
