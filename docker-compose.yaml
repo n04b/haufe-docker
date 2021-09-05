@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql:5.7
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 12345
+      MYSQL_DATABASE: haufe
+
+  back:
+    build:
+      context: .
+      dockerfile: ./back/Dockerfile
+    image: haufe-test-back
+    ports:
+      - 2000:2000
+    depends_on:
+      - mysqldb
+
+  front:
+    build:
+      context: .
+      dockerfile: ./front/Dockerfile
+    image: haufe-test-front
+    ports:
+      - 3000:3000
+    depends_on:
+      - back
